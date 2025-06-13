@@ -31,7 +31,7 @@
 
 ![Retention](images/4.jpg)
 
-## 🔍 Примеры используемых SQL-запросов
+## 🔍 Используемые SQL-запросы
 
 Ниже приведены примеры сложных SQL-запросов, которые используются в дашборде для получения ключевых метрик и построения графиков.
 
@@ -53,3 +53,58 @@ JOIN
 ) t2
 USING user_id
 GROUP BY date, start_date
+
+### 2. Расширенный выбор данных с вычислением новых и старых пользователей, а также пола
+
+```sql
+SELECT t2.user_id as user_id, t2.post_id, t2.action, t2.time, t2.age, t2.country, t2.city, t2.os, t2.source, t2.exp_group, t1.start_date as start_date,
+if(start_date = toDate(time), 'new', 'old') as new,
+if(t2.gender = 1, 'male', 'female') as gender
+FROM
+(SELECT user_id, min(toDate(time)) as start_date 
+FROM simulator_20250420.feed_actions 
+GROUP BY user_id) t1
+JOIN
+(SELECT * FROM simulator_20250420.feed_actions) t2
+ON t1.user_id = t2.user_id
+
+### 3. Определение пользователей со статусами "новый", "удержанный" и "выбывший" по неделям
+
+```sql
+SELECT 
+    this_week, 
+    previous_week, 
+    -uniq(user_id) AS num_users, 
+    status 
+FROM (
+    SELECT 
+        user_id,
+        groupUniqArray(toMonday(toDate(time))) AS weeks_visited,
+        addWeeks(arrayJoin(weeks_visited), +1) AS this_week,
+        IF(has(weeks_visited, this_week) = 1, 'retained', 'gone') AS status,
+        addWeeks(this_week, -1) AS previous_week
+    FROM simulator_20250420.feed_actions
+    GROUP BY user_id
+)
+WHERE status = 'gone'
+GROUP BY this_week, previous_week, status
+HAVING this_week != addWeeks(toMonday(today()), +1)
+
+UNION ALL
+
+SELECT 
+    this_week, 
+    previous_week, 
+    toInt64(uniq(user_id)) AS num_users, 
+    status 
+FROM (
+    SELECT 
+        user_id,
+        groupUniqArray(toMonday(toDate(time))) AS weeks_visited,
+        arrayJoin(weeks_visited) AS this_week,
+        IF(has(weeks_visited, addWeeks(this_week, -1)) = 1, 'retained', 'new') AS status,
+        addWeeks(this_week, -1) AS previous_week
+    FROM simulator_20250420.feed_actions
+    GROUP BY user_id
+)
+GROUP BY this_week, previous_week, status
