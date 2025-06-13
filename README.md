@@ -21,20 +21,29 @@
 
 ---
 
----
+## 📸 Грифики
 
-## 🖼️ Скриншоты
+### DAU, MAU, WAU
 
-| | |
-|:-:|:-:|
-| ![DAU‑MAU‑WAU](images/1.png) | ![Likes & Views (Rolling)](images/2.png) |
-| ![Retention Cohorts](images/3.png) | ![Top‑100 Posts](images/4.png) |
-
-> **Как заменить изображения:**  
-> 1. Положите PNG/JPG файлы в папку `images/`.  
-> 2. Дайте им те же имена, что в таблице выше, или обновите пути в README.
+![DAU MAU WAU](images/1.png)
 
 ---
+
+### Likes и Views (rolling month)
+
+![Likes and Views](images/2.png)
+
+---
+
+### CTR (rolling month)
+
+![CTR](images/3.png)
+
+---
+
+### Retention и активность пользователей
+
+![Retention](images/4.png)
 
 ## 🔍 Примеры используемых SQL-запросов
 
