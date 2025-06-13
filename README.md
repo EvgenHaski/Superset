@@ -25,25 +25,25 @@
 
 ### DAU, MAU, WAU
 
-![DAU MAU WAU](images/1.png)
+![DAU MAU WAU](images/1.jpg)
 
 ---
 
 ### Likes и Views (rolling month)
 
-![Likes and Views](images/2.png)
+![Likes and Views](images/2.jpg)
 
 ---
 
 ### CTR (rolling month)
 
-![CTR](images/3.png)
+![CTR](images/3.jpg)
 
 ---
 
 ### Retention и активность пользователей
 
-![Retention](images/4.png)
+![Retention](images/4.jpg)
 
 ## 🔍 Примеры используемых SQL-запросов
 
