@@ -53,7 +53,7 @@ JOIN
 ) t2
 USING user_id
 GROUP BY date, start_date
-
+```
 ### 2. Расширенный выбор данных с вычислением новых и старых пользователей, а также пола
 
 ```sql
@@ -67,7 +67,7 @@ GROUP BY user_id) t1
 JOIN
 (SELECT * FROM simulator_20250420.feed_actions) t2
 ON t1.user_id = t2.user_id
-
+```
 ### 3. Определение пользователей со статусами "новый", "удержанный" и "выбывший" по неделям
 
 ```sql
@@ -108,3 +108,4 @@ FROM (
     GROUP BY user_id
 )
 GROUP BY this_week, previous_week, status
+```
